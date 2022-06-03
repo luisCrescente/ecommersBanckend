@@ -5,6 +5,17 @@ const port = 8080;
 
 app.use(express.static('../public') );
 
+
+app.use(express.urlencoded({ extended: true}));
+app.use(express.json());
+
+const products = require('./src/routes/products');
+const carrito = require('./src/routes/carrito');
+
+app.use('/api',products);
+app.use('/api',carrito);
+
+
 app.listen(8080, ()=>{
     console.log(`Escuchando en el puerto ${port}`);
 });
