@@ -2,11 +2,14 @@ const express = require('express')
 const router = express.Router();
 const controller = require('../controller/products');
 const upload = require('../middleware/multer');
-const products = require('../controller/products');
+const userAdm = require('../middleware/checkAdmin')
 
-router.get('/products',controller);
-router.post('/products',upload.single('img'),controller);
-router.put('/products/:id',upload.single('img'),controller);
-router.delete('/products/:id',controller);
+router.get('/products',controller.getAll);
+
+router.post('/products',userAdm ,upload.single('img'),controller.createProduct);
+
+router.put('/products/:id',userAdm ,upload.single('img'),controller);
+
+router.delete('/products/:id',userAdm ,controller.delete);
 
 module.exports = router;
