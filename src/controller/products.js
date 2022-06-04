@@ -48,6 +48,38 @@ class classProducts {
         } catch (error) { console.log(error) }
     };
 
+    edit = async (req,res) =>{
+        try{
+            const allProducts = await readJson(this.file);
+            const productToEdit = allProducts.find( product => product.id == id);
+            if(productToEdit != undefined){
+                const editProduct ={
+                    name: req.body.name != undefined ? req.body.name : productToEdit.name,
+                    price: req.body.price != undefined ? req.body.price : productToEdit.price,
+                    code: req.body.code != undefined ? req.body.code : productToEdit.code,
+                    description: req.body.description != undefined ? req.body.description : productToEdit.description,
+                    stock: req.body.stock != undefined ? req.body.stock : productToEdit.stock,
+                    image: req.file != undefined ? req.file.filename : productToEdit.file,
+                    
+                }
+                const edit = allProducts.indexOf(productToEdit);
+                allProducts[edit] = editProduct;
+                await writeJson(this.file, allProducts);
+                
+                res.status(200).json({
+                    data:editProduct,
+                    msg:'Producto editado',
+                    status:200
+                })
+            }else{
+                res.status(400).json({
+                    msg:'Producto no encontrado',
+                    error:400
+                })
+            }
+        } catch(error){console.log(error)}
+    };
+
     delete = async (req,res)=>{
 
         try {
