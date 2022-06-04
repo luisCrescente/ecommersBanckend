@@ -48,7 +48,7 @@ class classProducts {
         } catch (error) { console.log(error) }
     };
 
-    edit = async (req,res) =>{
+    editProduct = async (req,res) =>{
         try{
             const allProducts = await readJson(this.file);
             const productToEdit = allProducts.find( product => product.id == id);
