@@ -1,3 +1,9 @@
 [
-    
+	{
+		"name": "sss",
+		"price": "33",
+		"code": "1",
+		"description": "hgola",
+		"stock": "0"
+	}
 ]

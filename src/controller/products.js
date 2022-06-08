@@ -5,6 +5,7 @@ class classProducts {
     constructor(file){
         this.file = file;
     }
+    
     getAll = async (req,res)=>{
 
         try{
@@ -16,9 +17,9 @@ class classProducts {
                     status:(200)
                 })
             }else{
-                res.status(400).json({
+                res.status(200).json({
                     msg:'No hay productos',
-                    error:400
+                    error:200
                 })
             }
         }catch(error){console.log(error)}
@@ -35,7 +36,7 @@ class classProducts {
                 code: req.body.code,
                 description:req.body.description,
                 stock: req.body.stock,
-                img: req.body.img,
+                image: req.file != undefined ? req.file.filename :'noImage.jpg',
             };
 
             allProducts.push(newProduct);
@@ -51,6 +52,7 @@ class classProducts {
     editProduct = async (req,res) =>{
         try{
             const allProducts = await readJson(this.file);
+            const id = req.params.id;
             const productToEdit = allProducts.find( product => product.id == id);
             if(productToEdit != undefined){
                 const editProduct ={
@@ -84,6 +86,7 @@ class classProducts {
 
         try {
         const allProducts = await readJson(this.file);
+        const id = req.params.id;
         const productById = allProducts.filter( product => product.id != id);
 
             if (productById.length != allProducts.length){
