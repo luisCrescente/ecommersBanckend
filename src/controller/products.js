@@ -31,6 +31,7 @@ class classProducts {
             const allProducts = await readJson(this.file);
             const newProduct ={
                 id: lastId(allProducts) +1,
+                timesTamps: new Date(),
                 name: req.body.name,
                 price:req.body.price,
                 code: req.body.code,
@@ -56,6 +57,7 @@ class classProducts {
             const productToEdit = allProducts.find( product => product.id == id);
             if(productToEdit != undefined){
                 const editProduct ={
+                    ...productToEdit,
                     name: req.body.name != undefined ? req.body.name : productToEdit.name,
                     price: req.body.price != undefined ? req.body.price : productToEdit.price,
                     code: req.body.code != undefined ? req.body.code : productToEdit.code,
