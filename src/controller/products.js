@@ -25,6 +25,26 @@ class classProducts {
         }catch(error){console.log(error)}
     };
 
+    getProductById = async ( req, res ) =>{
+        try{
+            const id = req.params.id;
+            const allProducts = await readJson(this.file);
+            const findProdcut = allProducts.find( product => product.id == id);
+
+            if( findProdcut != undefined){
+                res.status(200).json({
+                    data:findProdcut,
+                    status:200
+                })
+            }else  {
+                res.status(400).json({
+                    msg:'producto no encontrado',
+                    error: 400
+                })
+            }
+        } catch (error) { console.log(error) }
+    }
+
     createProduct = async (req,res) =>{
 
         try{

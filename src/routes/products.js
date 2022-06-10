@@ -6,6 +6,8 @@ const {user, admin} = require('../middleware/checkAdmin')
 
 router.get('/products',controller.getAll);
 
+router.get('/products/:id', controller.getProductById)
+
 router.post('/products',user, admin ,upload.single('img'),controller.createProduct);
 
 router.put('/products/:id',user, admin ,upload.single('img'),controller.editProduct);
