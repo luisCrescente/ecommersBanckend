@@ -13,7 +13,7 @@ const products = require('./src/routes/products');
 const carts = require('./src/routes/carts');
 
 app.use('/api',products);
-app.use('/carts',carts);
+app.use('/api/carts',carts);
 
 
 app.listen(8080, ()=>{

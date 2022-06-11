@@ -10,17 +10,17 @@ class classCarts {
     create = async (req,res) =>{
 
         try{
-            const allCarts = await readJson(this.file);
+            const carts = await readJson(this.file);
             let newCart ={
-                id: lastId(allCarts)+1,
-                timestamps: new Date.now(),
+                id: lastId(carts)+1,
+                timestamps: new Date(),
                 products:[]
             }
-            allCarts.push(newCart);
-            await writeJson(this.file, allCarts);
+            carts.push(newCart);
+            await writeJson(this.file, carts);
 
             res.status(200).json({
-                data:newCarrito,
+                data:newCart,
                 msg:'carrito creado',
                 status:200
             })
@@ -31,18 +31,19 @@ class classCarts {
 
         try{
             const id = req.params.id;
-            const allCarts = readJson(this.file);
+            const allCarts = await readJson(this.file);
             const cartById = allCarts.filter( cart => cart.id != id);
 
             if(cartById.length != allCarts.length){
                 await writeJson(this.file, cartById);
                 res.status(200).json({
                     data: cartById,
+                    msg: 'carrito de compra eliminado',
                     status:200
                 })
             }else {
-                res.status(400).josn({
-                    msg: ' no se encuentra el carrito',
+                res.status(400).json({
+                    msg:'no se encuentra el carrito',
                     error:400
                 })
             }
@@ -54,6 +55,8 @@ class classCarts {
         
         try{
             const id = req.params.id;
+            const allCarts = await readJson(this.file);
+
             const findCart = allCarts.find(cart => cart.id == id);
             if( findCart != undefined){
                 if( findCart.products.length > 0){
@@ -69,7 +72,7 @@ class classCarts {
                 }
             }else {
                 res.status(400).json({
-                    msg:' no se encuentra el carrito',
+                    msg:' no se encuentra los productos del carrito',
                     error: 400
                 })
             }
@@ -77,72 +80,72 @@ class classCarts {
         } catch (error){ console.log(error) }
     };
 
-    saveProducts = async (req, res) =>{
+    // saveProducts = async (req, res) =>{
 
-        try{
-            const id = req.params.id;
-            const idProduct = req.params.products;
-            const allCarts = await readJson(this.file);
-            allProducts = await readJson('dataBase');
+    //     try{
+    //         const id = req.params.id;
+    //         const idProduct = req.params.products;
+    //         const allCarts = await readJson(this.file);
+    //         allProducts = await readJson('dataBase');
 
-            const cartById = allCarts.find( cart => cart.id == parseInt(id));
-            if(cartById){
-                const product = allProducts.find( product => product.id == parseInt(idProduct));
+    //         const cartById = allCarts.find( cart => cart.id == parseInt(id));
+    //         if(cartById){
+    //             const product = allProducts.find( product => product.id == parseInt(idProduct));
 
-                if(product){
-                    cartById.products.push(product)
-                    await writeJson(this.file, allCarts)
-                    res.status(200).json({
-                        data: allCarts,
-                        status:200
-                    })
-                }else {
-                    res.status(400).json({
-                        msg: 'no se encontro el producto ',
-                        status:400
-                    })
-                }
-            } else {
-                res.status(400).json({
-                    msg:'no se encuentra el carrito',
-                    error:400
-                })
-            }
+    //             if(product){
+    //                 cartById.products.push(product)
+    //                 await writeJson(this.file, allCarts)
+    //                 res.status(200).json({
+    //                     data: allCarts,
+    //                     status:200
+    //                 })
+    //             }else {
+    //                 res.status(400).json({
+    //                     msg: 'no se encontro el producto ',
+    //                     status:400
+    //                 })
+    //             }
+    //         } else {
+    //             res.status(400).json({
+    //                 msg:'no se encuentra el carrito',
+    //                 error:400
+    //             })
+    //         }
 
-        } catch (error) {console.log(error) }
-    };
+    //     } catch (error) {console.log(error) }
+    // };
     
-    deleteProduct = async (req, res) =>{
+    // deleteProduct = async (req, res) =>{
 
-        try{
-            const id = req.params.id;
-            const idProduct = req.params.id_prod;
+    //     try{
+    //         const id = req.params.id;
+    //         const idProduct = req.params.id_prod;
 
-            const allCarts = await readJson(this.file);
-            const cartById = allCarts.find( cart => cart.id == parseInt(id));
-            if (cartById) {
-                const newCart = cartById.products.filter( product => product.id != idProduct);
-                if (newCart.length != cartById.length > 0){
-                    await writeJson(this.file, allCarts)
-                    res.status(200).json({
-                        data: allCarts,
-                        status:200,
-                    })
-                } else{
-                    res.status(400).json({
-                        msg:'no se encontro el prodcuto en el carrito',
-                        error:400
-                    })
-                }
-            }else{
-                res.status(400).json({
-                    msg:'no se encuentra el carrito',
-                    error:400
-                })
-            }
+    //         const allCarts = await readJson(this.file);
+    //         const cartById = allCarts.find( cart => cart.id == parseInt(id));
+    //         if (cartById) {
+    //             const newCart = cartById.products.filter( product => product.id != idProduct);
+    //             if (newCart.length != cartById.length){
+    //                 await writeJson(this.file, allCarts)
+    //                 res.status(200).json({
+    //                     data: allCarts,
+    //                     status:200,
+    //                 })
+    //             } else{
+    //                 res.status(400).json({
+    //                     msg:'no se encontro el prodcuto en el carrito',
+    //                     error:400
+    //                 })
+    //             }
+    //         }else{
+    //             res.status(400).json({
+    //                 msg:'no se encuentra el carrito',
+    //                 error:400
+    //             })
+    //         }
 
-        } catch (error){ console.log(error) }
-    };
+    //     } catch (error){ console.log(error) }
+    // };
 };
 
 const carts = new classCarts('cartsDataBase');
