@@ -8,9 +8,9 @@ router.delete('/:id',controller.delete);
 
 router.get('/:id/products',controller.getCartProducts);
 
-// router.post('/:id/products', controller.saveProducts); 
+router.post('/:id/:product', controller.saveProducts); 
 
-// router.delete('/:id/products/:id_prod',controller.deleteProduct); 
+router.delete('/:id/products/:id_prod',controller.deleteProduct); 
 
 
 module.exports = router;
