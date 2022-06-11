@@ -15,6 +15,13 @@ const carts = require('./src/routes/carts');
 app.use('/api',products);
 app.use('/api/carts',carts);
 
+app.use((req, res) => {
+        res.json({
+            error: 
+            '-2'
+            , description: `ruta ${req.originalUrl} metodo ${req.method} no implementada` 
+        });
+    });
 
 app.listen(8080, ()=>{
     console.log(`Escuchando en el puerto ${port}`);
