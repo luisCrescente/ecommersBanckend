@@ -84,7 +84,7 @@ class classCarts {
 
         try{
             const id = req.params.id;
-            const idProduct = req.params.product;
+            const idProduct = req.body.product;
             const allCarts = await readJson(this.file);
             const allProducts = await readJson('dataBase');
 
