@@ -1,25 +1,30 @@
-const express = require('express');
+import express from 'express'
+const { Router } = express
 const app = express();
-const path = require('path');
+
 const port = 8080;
 
-app.use(express.static(path.resolve(__dirname,'./public')));
+import{
+    productsDao as productsApi
+} from './src/daos/index.js'
+
+
+const productsRouter = new Router()
+
+productsRouter.post('/',  async (req,res)=>{
+    res.json(await productsApi.saveProduct(req.body))
+});
 
 
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 
-const products = require('./src/routes/products');
-const carts = require('./src/routes/carts');
-
-app.use('/api',products);
-app.use('/api/carts',carts);
+app.use('/api/products', productsRouter)
 
 app.use((req, res) => {
         res.json({
-            error: 
-            '-2'
-            , description: `ruta ${req.originalUrl} metodo ${req.method} no implementada` 
+            error: '-2', 
+            description: `ruta ${req.originalUrl} metodo ${req.method} no implementada`
         });
     });
 
