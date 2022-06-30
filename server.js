@@ -9,17 +9,36 @@ import{
 } from './src/daos/index.js'
 
 
-const productsRouter = new Router()
-
-productsRouter.post('/',  async (req,res)=>{
-    res.json(await productsApi.saveProduct(req.body))
-});
-
-
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 
+
+
+/**** Rutas Productos ****/
+
+const productsRouter = new Router()
+
 app.use('/api/products', productsRouter)
+
+productsRouter.post('/',  async (req, res)=>{
+    res.json(await productsApi.saveProduct(req.body))
+});
+
+productsRouter.get('/',  async (req, res)=>{
+    const products = await productsApi.getProducts();
+    res.json(products)
+});
+
+productsRouter.get('/:id', async (req, res) =>{
+    res.json(await productsApi.getProductById(req.params.id))
+});
+
+// productsRouter.put('/:id', async (req, res)=>{
+//     res.json( await productsApi.editProduct(req.body))
+// })
+
+/**** Rutas Productos ****/
+
 
 app.use((req, res) => {
         res.json({
@@ -27,6 +46,7 @@ app.use((req, res) => {
             description: `ruta ${req.originalUrl} metodo ${req.method} no implementada`
         });
     });
+
 
 app.listen(8080, ()=>{
     console.log(`Escuchando en el puerto ${port}`);

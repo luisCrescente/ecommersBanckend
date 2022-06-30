@@ -22,6 +22,43 @@ class ContainerFirebase {
         }
     }
     
+    async getProducts (){
+        try{
+            const totalProducts =[];
+            const products = await this.collection.get();
+            products.forEach(doc =>{
+                totalProducts.push({id: doc.id, ...doc.data()})
+            })
+            return totalProducts
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async getProductById (id){
+        try{
+            const doc = await this.collection.doc(id).get();
+            if(!doc.exists){
+                throw new Error('No se encontro el producto encontrdado')
+            } else {
+                const data = doc.data();
+                return{ ...data, id }
+            }
+        }catch (error) {
+            console.log(error);
+        }
+    }
+
+    // async editProduct(newProduct){
+    //     try{
+    //         const product = await this.collection.doc(newProduct.id).set(newProduct);
+    //         return product
+    //     }catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+
+
     async desconectar() {
     }
 }
