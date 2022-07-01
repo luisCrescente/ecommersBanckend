@@ -13,33 +13,33 @@ class ContainerFirebase {
         this.collection = db.collection(nameCollection)
     }
 
-    async saveProduct(newProduct){
+    async save(newElement){
         try{
-            const save = await this.collection.add(newProduct);
-            return{...newProduct, id: save.id}
+            const save = await this.collection.add(newElement);
+            return{...newElement, id: save.id}
         } catch (error) {
             console.log(error);
         }
     }
     
-    async getProducts (){
+    async getAll (){
         try{
-            const totalProducts =[];
-            const products = await this.collection.get();
-            products.forEach(doc =>{
-                totalProducts.push({id: doc.id, ...doc.data()})
+            const totalElement =[];
+            const element = await this.collection.get();
+            element.forEach(doc =>{
+                totalElement.push({id: doc.id, ...doc.data()})
             })
-            return totalProducts
+            return totalElement
         } catch (error) {
             console.log(error);
         }
     }
 
-    async getProductById (id){
+    async getElementById (id){
         try{
             const doc = await this.collection.doc(id).get();
             if(!doc.exists){
-                throw new Error('No se encontro el producto encontrdado')
+                throw new Error('Error al borrar, no se pudo encontrar')
             } else {
                 const data = doc.data();
                 return{ ...data, id }
