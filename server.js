@@ -15,7 +15,7 @@ app.use(express.json());
 
 
 
-/**** Rutas Productos firebase ****/
+// Rutas Productos firebase 
 
 const productsRouter = new Router()
 
@@ -35,7 +35,7 @@ productsRouter.get('/:id', async (req, res) =>{
 });
 
 // productsRouter.put('/:id', async (req, res)=>{
-//     res.json( await productsApi.editProduct(req.body))
+//     res.json( await productsApi.updateElement(req.params.id, req.body))
 // })
 
 
@@ -45,7 +45,7 @@ productsRouter.delete('/:id', async (req, res) =>{
 
 
 
-/**** Rutas carrito firebase ****/
+//  Rutas carrito firebase 
 
 const cartsRouter = new Router();
 
@@ -59,7 +59,28 @@ cartsRouter.post('/', async (req,res)=>{
     res.json(await cartsApi.save(req.body))
 });
 
+cartsRouter.get('/:id/products', async (req, res) =>{
+    const cart = await cartsApi.getAll(req.params.id)
+    res.json(carts.products)
+});
 
+cartsRouter.post('/:id/products', async (req, res) =>{
+    const carts = await cartsApi.getAll(req.params.id)
+    const product = await productsApi.getAll(req.body.id)
+    carts.products.push(product);
+    await cartsApi.updateElement(carts);
+    res.end()
+});
+
+cartsRouter.delete('/:id/products/:idProd', async (req, res) =>{
+    const carts = await cartsApi.getAll(req.params.id)
+    const index = carts.products.findIndex( elem => elem.id == req.params.idProd)
+    if(index != -1){
+        carts.products.splice(index, 1)
+        await cartsApi.updateElement(carts)
+    }
+    res.end()
+});
 
 app.use((req, res) => {
         res.json({

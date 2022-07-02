@@ -49,7 +49,7 @@ class ContainerFirebase {
         }
     }
 
-    // async editProduct(newProduct){
+    // async updateElement(newProduct){
     //     try{
     //         const product = await this.collection.doc(newProduct.id).set(newProduct);
     //         return product
@@ -58,6 +58,14 @@ class ContainerFirebase {
     //     }
     // }
 
+    async delete(id) {
+        try{
+            const element = await this.collection.doc(id).delete();
+            return element
+        }catch (error) {
+            console.log(error);
+        }
+    };
 
     async desconectar() {
     }
