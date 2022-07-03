@@ -1,3 +1,5 @@
 const productsDaos = require('./productsMongo');
+const cartsDaos = require('./cartsMongo');
 
-module.exports = {productsDaos}
+
+module.exports = { productsDaos, cartsDaos }

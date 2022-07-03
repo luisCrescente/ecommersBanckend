@@ -1,9 +1,13 @@
-// FiREBase
-const Daos = require('../daos/firebase/firebaseDaos');
+// // FiREBase
+// const Daos = require('../daos/firebase/firebaseDaos');
+// const Cart = new Daos.cartsDaos();
+
+//MONGO 
+const Daos = require('../daos/mongo/mongoDaos');
 const Cart = new Daos.cartsDaos();
 
-
 module.exports = {
+  
   createCart: async (req, res) => {
     try {
       const cart = await Cart.createCart();
@@ -20,6 +24,7 @@ module.exports = {
       });
     }
   },
+
   addProductToCart: async (req, res) => {
     try {
       if (!req.body.id) {
@@ -43,6 +48,7 @@ module.exports = {
       });
     }
   },
+
   getCartById: async (req, res) => {
     const idCard = req.params.id;
     try {
@@ -66,6 +72,7 @@ module.exports = {
       });
     }
   },
+
   deleteCartById: async (req, res) => {
     const idCart = req.params.id;
     try {
@@ -81,6 +88,7 @@ module.exports = {
       });
     }
   },
+
   deleteProductCart: async (req, res) => {
     try {
       if (!req.params.id) {
@@ -102,5 +110,5 @@ module.exports = {
           status: 500,
       });
     }
-  },
+  }
 };
